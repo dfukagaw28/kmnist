@@ -10,6 +10,7 @@ from tensorflow.keras import backend as K
 import numpy as np
 import os
 
+TF1 = tf.VERSION[:1] == '1.'
 RANDOM_SEED = 12345
 batch_size = 128
 NUM_CLASSES = 10
@@ -26,7 +27,10 @@ else:
 
 def reset_seed(seed=RANDOM_SEED):
     np.random.seed(seed)
-    tf.random.set_seed(seed)
+    if TF1:
+        tf.compat.v1.set_random_seed(seed)
+    else:
+        tf.random.set_seed(seed)
 
 
 def load_dataset(basedir=None):
